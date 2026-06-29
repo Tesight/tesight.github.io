@@ -1,0 +1,13 @@
+
+> tesight.github.io@0.1.0 dev
+> concurrently "npx velite --watch" "next dev"
+
+[0] [32m[VELITE][0m build finished in 391.62ms
+[0] [32m[VELITE][0m watching for changes in 'content' 
+[1] ▲ Next.js 16.2.3 (Turbopack)
+[1] - Local:         http://localhost:3000
+[1] - Network:       http://192.168.150.27:3000
+[1] ✓ Ready in 5.6s
+[1] Creating turbopack project { dir: 'D:\\project\\blog\\tesight.github.io', testMode: true }
+[1] 
+[1]  GET /blog/260625-ntp-settings 200 in 3.3s (next.js: 3.1s, generate-params: 354ms, application-code: 280ms)
