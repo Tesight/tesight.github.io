@@ -5,25 +5,46 @@ on:
     branches:
       - master
   pull_request:
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+
     permissions:
       contents: write
+
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout site repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          ssh-key: ${{ secrets.TRACK_EDITOR_DEPLOY_KEY }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '25'
-          cache: 'npm'
+          node-version: "25"
+          cache: "npm"
+          cache-dependency-path: app/track-editor/package-lock.json
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install track-editor dependencies
+        working-directory: app/track-editor
+        run: npm ci
+
+      - name: Build track-editor web
+        working-directory: app/track-editor
+        run: npm run build:web
+
+      - name: Compose site
+        run: |
+          rm -rf out
+          mkdir -p out/app/track-editor
+          cp -r app/track-editor/dist/* out/app/track-editor/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
@@ -31,3 +52,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
+

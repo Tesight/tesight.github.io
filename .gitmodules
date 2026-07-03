@@ -1,0 +1,3 @@
+[submodule "track-editor"]
+	path = track-editor
+	url = git@github.com:Tesight/track-editor.git
