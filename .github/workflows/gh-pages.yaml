@@ -30,7 +30,9 @@ jobs:
         with:
           node-version: "25"
           cache: "npm"
-          cache-dependency-path: app/track-editor/package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            app/track-editor/package-lock.json
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -43,21 +45,30 @@ jobs:
           workspaces: app/track-editor
 
       - name: Install wasm-pack
-        run: cargo install wasm-pack --locked
+        run: |
+          if ! command -v wasm-pack >/dev/null 2>&1; then
+            cargo install wasm-pack --locked
+          fi
 
-      - name: Install track-editor dependencies
-        working-directory: app/track-editor
+      # 1. 构建博客本体，生成 out/
+      - name: Install blog dependencies
         run: npm ci
 
-      - name: Build track-editor web
-        working-directory: app/track-editor
-        run: npm run build:web
+      - name: Build blog
+        run: npm run build
 
-      - name: Compose site
+      - name: Build track-editor web
         run: |
-          rm -rf out
+          cd app/track-editor
+          npm ci
+          npm run build:web
+
+          cd ../..
+          rm -rf out/app/track-editor
           mkdir -p out/app/track-editor
-          cp -r app/track-editor/dist/* out/app/track-editor/
+          rsync -a app/track-editor/dist/ out/app/track-editor/
+
+          find out/app/track-editor -name .gitignore -delete
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
@@ -65,3 +76,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
+          publish_branch: gh-pages
+          force_orphan: true
+          enable_jekyll: false
+
