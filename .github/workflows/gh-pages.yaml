@@ -32,6 +32,19 @@ jobs:
           cache: "npm"
           cache-dependency-path: app/track-editor/package-lock.json
 
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: app/track-editor
+
+      - name: Install wasm-pack
+        run: cargo install wasm-pack --locked
+
       - name: Install track-editor dependencies
         working-directory: app/track-editor
         run: npm ci
@@ -52,4 +65,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-
