@@ -32,7 +32,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: |
             package-lock.json
-            app/track-editor/package-lock.json
+            application/track-editor/package-lock.json
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -42,7 +42,7 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: app/track-editor
+          workspaces: application/track-editor
 
       - name: Install wasm-pack
         run: |
@@ -59,14 +59,14 @@ jobs:
 
       - name: Build track-editor web
         run: |
-          cd app/track-editor
+          cd application/track-editor
           npm ci
           npm run build:web
 
           cd ../..
           rm -rf out/app/track-editor
           mkdir -p out/app/track-editor
-          rsync -a app/track-editor/dist/ out/app/track-editor/
+          rsync -a application/track-editor/dist/ out/app/track-editor/
 
           find out/app/track-editor -name .gitignore -delete
 

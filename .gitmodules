@@ -1,6 +1,4 @@
-[submodule "track-editor"]
-	path = track-editor
+[submodule "application/track-editor"]
+	path = application/track-editor
 	url = git@github.com:Tesight/track-editor.git
-[submodule "app/track-editor"]
-	path = app/track-editor
-	url = git@github.com:Tesight/track-editor.git
+	branch = master
