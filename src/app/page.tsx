@@ -1,51 +1,86 @@
 import Link from "next/link";
 import { posts } from "@velite";
+import { PostArtwork } from "@/components/post-artwork";
 
 export default function Home() {
-  const sortedPosts = posts.sort(
-    (a, b) =>
-      new Date(b.date || "").getTime() - new Date(a.date || "").getTime(),
-  );
+  const recentPosts = [...posts]
+    .sort(
+      (a, b) =>
+        new Date(b.date || "").getTime() - new Date(a.date || "").getTime(),
+    )
+    .slice(0, 4);
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-12">
-      <header className="mb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight">Tesight 技术</h1>
-      </header>
+    <main>
+      <section className="bg-background py-16">
+        <div className="mx-auto max-w-6xl text-left">
+          <h1 className="m-0 font-bold max-w-4xl text-7xl leading-[1.2] tracking-tighter text-foreground">
+            从信号出发，探索测试的边界
+          </h1>
+          <p className="mt-5 text-2xl leading-[1.2] tracking-tight text-foreground-2">
+            德思特技术博客，分享测试测量的技术方法、工程实践与前沿洞察
+          </p>
+        </div>
+      </section>
 
-      <div className="space-y-12">
-        {sortedPosts.map((post) => (
-          <article key={post.slug} className="group flex flex-col items-start">
-            <time className="text-sm text-gray-400 mb-2">
-              {post.date || "2026-04-13"}
-            </time>
-
-            <h2 className="text-2xl font-bold">
-              <Link
-                href={`/blog/${post.slug}`}
-                className="hover:text-blue-600 transition-colors"
+      <section className="bg-background pb-30 pt-14">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-10 md:grid-cols-2">
+            {recentPosts.map((post) => (
+              <article
+                key={post.slug}
+                className="flex h-full flex-col overflow-hidden rounded-[4px] bg-curate-50"
               >
-                {post.title}
-              </Link>
-            </h2>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="block hover:opacity-80"
+                >
+                  <PostArtwork />
+                </Link>
+                <div className="flex flex-1 flex-col pt-2 gap-1.5">
+                  <h2 className="m-0 font-medium leading-[1.2] tracking-wider text-lg text-foreground">
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="text-curate-950 no-underline hover:underline"
+                    >
+                      {post.title}
+                    </Link>
+                  </h2>
+                  <div className="text-sm font-light text-foreground-2">
+                    {post.date || "2026-04-13"}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {post.summary && (
-              <p className="text-gray-600 mt-3 line-clamp-2 leading-relaxed">
-                {post.summary}
-              </p>
-            )}
-
-            <div className="mt-4">
-              <Link
-                href={`/blog/${post.slug}`}
-                className="text-blue-500 text-sm font-medium hover:underline"
-              >
-                阅读全文 →
-              </Link>
+      <section className="bg-background-2 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-10 md:grid-cols-12 md:items-start">
+            <div className="md:col-span-4">
+              <h2 className="m-0 text-4xl font-normal leading-[1.2] text-foreground">
+                文章主题
+              </h2>
             </div>
-          </article>
-        ))}
-      </div>
+            <div className="md:col-span-8">
+              <div className="flex flex-wrap gap-3">
+                {["GNSS", "NTP", "测试软件", "AI + 信号测试", "测试测量"].map(
+                  (topic) => (
+                    <span
+                      key={topic}
+                      className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground"
+                    >
+                      {topic}
+                    </span>
+                  ),
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

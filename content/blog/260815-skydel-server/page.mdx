@@ -5,11 +5,9 @@ author: Leo
 summary: 从源码梳理 Skydel Remote API 的命令通道、API 版本握手、指令封包与响应匹配，以及 ClientHil 的车辆信息接收与 ECEF/NED 动态数据推送流程
 ---
 
-本文从 RemoteSimulator.connect() 入手，沿着 Skydel Remote API 的源码调用链，梳理 Client 与 Server 之间是如何建立连接、发送指令、等待响应，并进一步建立 HIL 通道完成车辆状态收发的。
-
 源码地址：[skydelsdx/remotesimulator.py](https://github.com/learn-safran-navigation-timing/skydel-remote-api/blob/main/Python/skydelsdx/remotesimulator.py)
 
-# 建立连接：`RemoteSimulator.connect()`
+## 建立连接：`RemoteSimulator.connect()`
 
 ```Python
 def connect(
