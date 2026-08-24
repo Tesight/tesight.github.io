@@ -1,0 +1,7 @@
+:HL["/_next/static/chunks/0m-99.4g0543a.css","style"]
+:HL["/static/assets/bb66d209d178de57cfaf3d17.jpg","image"]
+:HL["/static/assets/770311e1b9e168aa24ce6a03.jpg","image"]
+:HL["/static/assets/65a6d4a7c68bd5e4f009753c.jpg","image"]
+:HL["/static/assets/e271867233724e62aba03231.jpg","image"]
+:HL["/static/assets/8e96345ce50484c845a3028a.jpg","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"260515-wireshark-serial","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"xhZpj6C6Mihp4knxEyhbQ"}

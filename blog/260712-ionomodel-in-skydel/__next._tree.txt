@@ -1,0 +1,5 @@
+:HL["/_next/static/chunks/0m-99.4g0543a.css","style"]
+:HL["/static/assets/ac6caba2b6307245a1c1edc0.png","image"]
+:HL["/static/assets/1d098d2b7c3329c1f02d8caf.jpg","image"]
+:HL["/static/assets/a0d563069baf9f2cc5f28055.jpg","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"260712-ionomodel-in-skydel","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"xhZpj6C6Mihp4knxEyhbQ"}

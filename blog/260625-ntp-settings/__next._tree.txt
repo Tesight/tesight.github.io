@@ -1,0 +1,3 @@
+:HL["/_next/static/chunks/0m-99.4g0543a.css","style"]
+:HL["/static/assets/9fa0d8a6e49f1fa46a07ccec.png","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"260625-ntp-settings","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"xhZpj6C6Mihp4knxEyhbQ"}

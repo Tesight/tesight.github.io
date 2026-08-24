@@ -1,0 +1,15 @@
+{
+  "name": "track-core-wasm",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "track_core_wasm_bg.wasm",
+    "track_core_wasm.js",
+    "track_core_wasm.d.ts"
+  ],
+  "main": "track_core_wasm.js",
+  "types": "track_core_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
