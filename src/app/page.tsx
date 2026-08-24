@@ -76,13 +76,14 @@ export default function Home() {
             <div className="md:col-span-8">
               <div className="flex flex-wrap gap-3">
                 {tags.map(([tag, count]) => (
-                  <span
+                  <Link
                     key={tag}
-                    className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground"
+                    href={`/tag/${encodeURIComponent(tag)}`}
+                    className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground no-underline hover:opacity-80"
                   >
                     {tag}
                     <span className="ml-2 text-foreground-2">({count})</span>
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
