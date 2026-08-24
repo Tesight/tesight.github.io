@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/", label: "主页" },
-  // { href: "/projects", label: "项目" },
   { href: "/blog", label: "博客" },
-  // { href: "/contact", label: "联系" },
+  { href: "/app", label: "应用" },
+  { href: "/contact", label: "联系" },
 ];
 
 function isActivePath(pathname: string, href: string) {
@@ -56,7 +56,7 @@ export function SiteNav() {
           })}
         </ul>
 
-        <button className="text-[18px] font-normal text-curate-950 underline md:hidden">
+        <button className="text-base font-normal text-curate-950 underline md:hidden">
           Menu
         </button>
       </nav>
