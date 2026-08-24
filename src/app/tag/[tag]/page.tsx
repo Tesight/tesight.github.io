@@ -7,16 +7,28 @@ function getAllTags() {
   return Array.from(new Set(posts.flatMap((post) => post.tags)));
 }
 
+function getTagSlug(tag: string) {
+  return encodeURIComponent(tag);
+}
+
+function getTagFromParam(param: string) {
+  const tagOrSlug = decodeURIComponent(param);
+
+  return getAllTags().find(
+    (tag) => tag === tagOrSlug || getTagSlug(tag) === tagOrSlug,
+  );
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ tag: string }>;
 }): Promise<Metadata> {
   const { tag: encodedTag } = await params;
-  const tag = decodeURIComponent(encodedTag);
+  const tag = getTagFromParam(encodedTag);
 
   return {
-    title: `主题：${tag}`,
+    title: tag ? `主题：${tag}` : "主题",
   };
 }
 
@@ -26,7 +38,12 @@ export default async function TagPage({
   params: Promise<{ tag: string }>;
 }) {
   const { tag: encodedTag } = await params;
-  const tag = decodeURIComponent(encodedTag);
+  const tag = getTagFromParam(encodedTag);
+
+  if (!tag) {
+    notFound();
+  }
+
   const tagPosts = [...posts]
     .filter((post) => post.tags.includes(tag))
     .sort((a, b) => b.slug.localeCompare(a.slug));
@@ -58,5 +75,13 @@ export default async function TagPage({
 }
 
 export function generateStaticParams() {
-  return getAllTags().map((tag) => ({ tag: encodeURIComponent(tag) }));
+  return getAllTags().flatMap((tag) => {
+    const tagSlug = getTagSlug(tag);
+
+    if (tagSlug === tag) {
+      return [{ tag }];
+    }
+
+    return [{ tag: tagSlug }, { tag }];
+  });
 }
