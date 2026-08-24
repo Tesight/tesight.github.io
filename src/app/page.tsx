@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main>
-      <section className="bg-background py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-6xl text-left">
           <h1 className="m-0 font-bold max-w-4xl text-7xl leading-[1.2] tracking-tighter text-foreground">
             从信号出发，探索测试的边界
@@ -23,7 +23,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-background pb-30 pt-14">
+      <section className="pb-30 pt-14">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 md:grid-cols-2">
             {recentPosts.map((post) => (

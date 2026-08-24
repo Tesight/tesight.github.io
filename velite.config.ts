@@ -9,6 +9,7 @@ export default defineConfig({
         title: s.string(),
         date: s.string().optional(),
         summary: s.string().optional(),
+        author: s.string().optional(),
         slug: s.path().transform((path) => path.split("/")[1]),
         content: s.mdx(),
       }),
