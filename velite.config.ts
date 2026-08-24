@@ -1,6 +1,51 @@
+import rehypePrettyCode from "rehype-pretty-code";
 import { defineConfig, s } from "velite";
 
+const prettyCodeOptions = {
+  theme: "github-dark",
+};
+
+type HastElement = {
+  type: "element";
+  tagName: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+};
+
+type HastNode = HastElement | { children?: HastNode[] };
+
+function isHastElement(node: HastNode): node is HastElement {
+  return "type" in node && node.type === "element";
+}
+
+function rehypeWrapTables() {
+  return (tree: HastNode) => {
+    function visit(node: HastNode) {
+      if (!node.children) return;
+
+      node.children = node.children.map((child) => {
+        if (isHastElement(child) && child.tagName === "table") {
+          return {
+            type: "element",
+            tagName: "div",
+            properties: { className: ["table-scroll"] },
+            children: [child],
+          };
+        }
+
+        visit(child);
+        return child;
+      });
+    }
+
+    visit(tree);
+  };
+}
+
 export default defineConfig({
+  mdx: {
+    rehypePlugins: [rehypeWrapTables, [rehypePrettyCode, prettyCodeOptions]],
+  },
   collections: {
     posts: {
       name: "Post",

@@ -1,4 +1,5 @@
 import { posts } from "@velite";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostArtwork } from "@/components/post-artwork";
 import * as runtime from "react/jsx-runtime";
@@ -7,6 +8,28 @@ const MDXContent = ({ code }: { code: string }) => {
   const Component = new Function(code)({ ...runtime }).default;
   return <Component />;
 };
+
+const postContentClassName = [
+  "prose prose-lg max-w-none",
+  "prose-headings:font-bold prose-headings:leading-tight prose-headings:tracking-tight prose-headings:text-foreground",
+  "prose-h2:mt-8 prose-h2:mb-5 prose-h2:text-3xl",
+  "prose-h3:mt-6 prose-h3:mb-4 prose-h3:text-2xl",
+  "prose-p:my-2 prose-p:leading-8 prose-p:text-foreground",
+  "prose-a:text-foreground prose-a:underline prose-a:decoration-foreground/35 prose-a:underline-offset-4 hover:prose-a:decoration-foreground",
+  "prose-strong:text-foreground",
+  "prose-ul:my-0",
+  "prose-li:my-0 prose-li:text-foreground prose-li:marker:text-foreground-2",
+  "prose-blockquote:border-l-foreground prose-blockquote:text-foreground-2",
+  "prose-code:rounded-sm prose-code:bg-stone-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none prose-code:font-mono prose-code:font-normal",
+  "prose-pre:rounded-md prose-pre:bg-foreground prose-pre:p-5 prose-pre:text-background prose-pre:font-mono",
+  "[&_pre_code]:rounded-none [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-background",
+  "[&_.table-scroll]:my-8 [&_.table-scroll]:max-w-full [&_.table-scroll]:overflow-x-auto",
+  "[&_table]:my-0 [&_table]:w-full [&_table]:table-auto [&_table]:border-collapse",
+  "[&_th]:px-4 [&_th]:py-3 [&_th]:text-left [&_td]:px-4 [&_td]:py-3",
+  "[&_th]:whitespace-normal [&_td]:whitespace-normal [&_th]:break-words [&_td]:break-words",
+  "prose-img:rounded-sm",
+  "prose-hr:border-foreground/15",
+].join(" ");
 
 export default async function PostPage({
   params,
@@ -22,7 +45,7 @@ export default async function PostPage({
   const postMeta = [post.date, post.author].filter(Boolean).join(" · ");
 
   return (
-    <main className="bg-curate-50">
+    <main className="bg-background">
       <section className="relative h-[75vh] w-full overflow-hidden">
         <PostArtwork
           cover={post.cover}
@@ -30,7 +53,7 @@ export default async function PostPage({
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-linear-to-b from-foreground-2/10 via-foreground-2/10 to-foreground-2/45" />
-        <header className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl pb-20 text-left text-background">
+        <header className="absolute inset-x-0 px-5 bottom-0 z-10 mx-auto max-w-4xl pb-20 text-left text-background">
           {postMeta && (
             <div className="mb-4 text-base leading-6 text-background/80">
               {postMeta}
@@ -47,10 +70,26 @@ export default async function PostPage({
         </header>
       </section>
 
-      <article className="mx-auto max-w-4xl py-16">
-        <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-a:text-foreground prose-a:underline prose-strong:text-foreground prose-pre:rounded-md prose-pre:bg-curate-950 prose-img:rounded-sm">
+      <article className="mx-auto max-w-4xl px-5 py-16">
+        <div className={postContentClassName}>
           <MDXContent code={post.content} />
         </div>
+
+        {post.tags.length > 0 && (
+          <footer className="border-foreground/15 pt-8">
+            <div className="flex flex-wrap gap-3">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tag/${encodeURIComponent(tag)}`}
+                  className="rounded-sm bg-background-2 px-4 py-2 text-sm leading-none text-foreground no-underline hover:bg-background-3"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </footer>
+        )}
       </article>
     </main>
   );

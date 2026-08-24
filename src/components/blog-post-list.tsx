@@ -54,7 +54,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                     <Link
                       key={tag}
                       href={`/tag/${encodeURIComponent(tag)}`}
-                      className="rounded-sm bg-background-3 px-3 py-1.5 text-sm leading-none text-foreground no-underline hover:opacity-80"
+                      className="rounded-sm bg-background-2 px-3 py-1.5 text-sm leading-none text-foreground no-underline hover:bg-background-3"
                     >
                       # {tag}
                     </Link>
