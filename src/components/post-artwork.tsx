@@ -18,14 +18,24 @@ function getCoverSrc(cover?: string) {
   return `/cover/${cover}`;
 }
 
-export function PostArtwork({ cover }: { cover?: string }) {
+export function PostArtwork({
+  cover,
+  className = "",
+  sizes = "(min-width: 768px) 50vw, 100vw",
+}: {
+  cover?: string;
+  className?: string;
+  sizes?: string;
+}) {
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-background-2">
+    <div
+      className={`relative aspect-video w-full overflow-hidden rounded-sm bg-background-2 ${className}`}
+    >
       <Image
         src={getCoverSrc(cover)}
         alt=""
         fill
-        sizes="(min-width: 768px) 50vw, 100vw"
+        sizes={sizes}
         className="object-cover"
       />
     </div>

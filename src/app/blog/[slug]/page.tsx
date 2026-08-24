@@ -1,5 +1,6 @@
 import { posts } from "@velite";
 import { notFound } from "next/navigation";
+import { PostArtwork } from "@/components/post-artwork";
 import * as runtime from "react/jsx-runtime";
 
 const MDXContent = ({ code }: { code: string }) => {
@@ -18,26 +19,36 @@ export default async function PostPage({
 
   if (!post) notFound();
 
+  const postMeta = [post.date, post.author].filter(Boolean).join(" · ");
+
   return (
-    <main className="bg-curate-50 py-[40px] md:py-[80px]">
-      <article className="mx-auto max-w-[820px] px-[30px]">
-        <header className="mb-[40px]">
-          {post.date && (
-            <time className="mb-[14px] block text-[14px] font-normal text-curate-700">
-              {post.date}
-            </time>
+    <main className="bg-curate-50">
+      <section className="relative h-[75vh] w-full overflow-hidden">
+        <PostArtwork
+          cover={post.cover}
+          className="absolute inset-0 h-full rounded-none"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-foreground-2/10 via-foreground-2/10 to-foreground-2/45" />
+        <header className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl pb-20 text-left text-background">
+          {postMeta && (
+            <div className="mb-4 text-base leading-6 text-background/80">
+              {postMeta}
+            </div>
           )}
-          <h1 className="m-0 text-[36px] font-bold leading-[1.1] tracking-[-1px] text-curate-950 md:text-[46px] md:leading-none md:tracking-[-2px]">
+          <h1 className="m-0 max-w-3xl text-5xl font-bold leading-[1.1] tracking-[-1px] text-background">
             {post.title}
           </h1>
           {post.summary && (
-            <p className="mt-[20px] text-[22px] leading-[1.24] tracking-[-1px] text-curate-700 md:mt-[30px] md:text-[26px] md:leading-[1.4] md:tracking-[1px]">
+            <p className="mt-5 max-w-2xl text-2xl leading-[1.35] text-background/85">
               {post.summary}
             </p>
           )}
         </header>
+      </section>
 
-        <div className="prose prose-lg max-w-none prose-headings:font-medium prose-headings:text-curate-950 prose-p:text-curate-950 prose-li:text-curate-950 prose-a:text-curate-950 prose-a:underline prose-strong:text-curate-950 prose-pre:rounded-[4px] prose-pre:bg-curate-950 prose-img:rounded-[4px]">
+      <article className="mx-auto max-w-4xl py-16">
+        <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-a:text-foreground prose-a:underline prose-strong:text-foreground prose-pre:rounded-md prose-pre:bg-curate-950 prose-img:rounded-sm">
           <MDXContent code={post.content} />
         </div>
       </article>

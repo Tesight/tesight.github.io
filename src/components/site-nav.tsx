@@ -29,15 +29,27 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function isPostPage(pathname: string) {
+  return /^\/blog\/[^/]+\/?$/.test(pathname);
+}
+
 export function SiteNav() {
   const pathname = usePathname();
+  const overlaysCover = isPostPage(pathname);
+  const navTextClass = overlaysCover ? "text-background" : "text-foreground";
 
   return (
-    <header className="bg-background text-foreground">
+    <header
+      className={`${
+        overlaysCover
+          ? "absolute left-0 top-0 z-30 w-full bg-transparent"
+          : "bg-background"
+      } ${navTextClass}`}
+    >
       <nav className="mx-auto flex h-15 max-w-6xl items-center justify-between">
         <Link href="/" className="flex items-center" aria-label="Tesight home">
           <Image
-            src="/logo.svg"
+            src={overlaysCover ? "/logo-white.svg" : "/logo.svg"}
             alt="Tesight"
             width={132}
             height={32}
@@ -54,7 +66,7 @@ export function SiteNav() {
               <li key={item.href} className="h-full">
                 <Link
                   href={item.href}
-                  className={`flex h-full items-center px-2.5 py-2 text-lg capitalize text-foreground no-underline hover:underline ${
+                  className={`flex h-full items-center px-2.5 py-2 text-lg capitalize ${navTextClass} no-underline hover:underline ${
                     isActive ? "font-bold" : "font-normal"
                   }`}
                   aria-current={isActive ? "page" : undefined}
@@ -68,7 +80,7 @@ export function SiteNav() {
           <li className="group relative h-full">
             <button
               type="button"
-              className={`flex h-full items-center gap-1 px-2.5 py-2 text-lg capitalize text-foreground hover:underline ${
+              className={`flex h-full items-center gap-1 px-2.5 py-2 text-lg capitalize ${navTextClass} hover:underline ${
                 pathname.startsWith("/app") ? "font-bold" : "font-normal"
               }`}
               aria-haspopup="menu"
@@ -126,7 +138,7 @@ export function SiteNav() {
               <li key={item.href} className="h-full">
                 <Link
                   href={item.href}
-                  className={`flex h-full items-center px-2.5 py-2 text-lg capitalize text-foreground no-underline hover:underline ${
+                  className={`flex h-full items-center px-2.5 py-2 text-lg capitalize ${navTextClass} no-underline hover:underline ${
                     isActive ? "font-bold" : "font-normal"
                   }`}
                   aria-current={isActive ? "page" : undefined}
@@ -138,7 +150,7 @@ export function SiteNav() {
           })}
         </ul>
 
-        <button className="text-base font-normal text-curate-950 underline md:hidden">
+        <button className={`text-base font-normal ${navTextClass} underline md:hidden`}>
           Menu
         </button>
       </nav>
