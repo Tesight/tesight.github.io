@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import { posts } from "@velite";
 import { BlogPostList } from "@/components/blog-post-list";
 import { Pagination } from "@/components/pagination";
 
+export const metadata: Metadata = {
+  title: "博客",
+};
 const POSTS_PER_PAGE = 5;
 
 export default function BlogListPage() {

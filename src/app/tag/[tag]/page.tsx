@@ -1,9 +1,23 @@
+import type { Metadata } from "next";
 import { posts } from "@velite";
 import { notFound } from "next/navigation";
 import { BlogPostList } from "@/components/blog-post-list";
 
 function getAllTags() {
   return Array.from(new Set(posts.flatMap((post) => post.tags)));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tag: string }>;
+}): Promise<Metadata> {
+  const { tag: encodedTag } = await params;
+  const tag = decodeURIComponent(encodedTag);
+
+  return {
+    title: `主题：${tag}`,
+  };
 }
 
 export default async function TagPage({

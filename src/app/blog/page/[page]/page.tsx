@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { posts } from "@velite";
 import { notFound } from "next/navigation";
 import { BlogPostList } from "@/components/blog-post-list";
 import { Pagination } from "@/components/pagination";
 
 const POSTS_PER_PAGE = 5;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ page: string }>;
+}): Promise<Metadata> {
+  const { page } = await params;
+
+  return {
+    title: `博客 第 ${page} 页`,
+  };
+}
 
 function getSortedPosts() {
   return [...posts].sort((a, b) => b.slug.localeCompare(a.slug));

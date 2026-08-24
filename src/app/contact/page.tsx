@@ -1,3 +1,7 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "联系",
+};
 const primaryContacts = [
   {
     label: "邮箱",
