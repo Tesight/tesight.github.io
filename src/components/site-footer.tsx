@@ -49,14 +49,14 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-background-2 py-24 text-sm text-foreground">
-      <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-12 md:gap-10">
+    <footer className="bg-background-2 py-16 text-sm text-foreground md:py-24">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-12 md:gap-10 xl:px-0">
         <div className="md:col-span-5">
           <div>
             <h2 className="mb-2 text-2xl font-bold leading-[1.2]">
               德思特科技
             </h2>
-            <p className="max-w-sm text-base leading-8 text-foreground-2">
+            <p className="max-w-sm text-base leading-7 text-foreground-2 md:leading-8">
               面向低空经济、自动驾驶、前沿科研及无线通信提供高精度、高集成度、可自动化的测试测量方案
             </p>
             <div className="-mx-2 mt-5 flex flex-wrap items-center text-2xl">

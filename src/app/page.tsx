@@ -22,20 +22,20 @@ export default function Home() {
 
   return (
     <main>
-      <section className="py-16">
-        <div className="mx-auto max-w-6xl text-left">
-          <h1 className="m-0 font-bold max-w-4xl text-7xl leading-[1.2] tracking-tighter text-foreground">
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-5 text-left xl:px-0">
+          <h1 className="m-0 max-w-4xl text-5xl font-bold leading-[1.15] tracking-tighter text-foreground md:text-7xl md:leading-[1.2]">
             从信号出发，探索测试的边界
           </h1>
-          <p className="mt-5 text-2xl leading-[1.2] tracking-tight text-foreground-2">
+          <p className="mt-5 text-xl leading-[1.35] tracking-tight text-foreground-2 md:text-2xl md:leading-[1.2]">
             德思特技术博客，分享测试测量的技术方法、工程实践与前沿洞察
           </p>
         </div>
       </section>
 
-      <section className="pb-30 pt-14">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-10 md:grid-cols-2">
+      <section className="pb-20 pt-10 md:pb-30 md:pt-14">
+        <div className="mx-auto max-w-6xl px-5 xl:px-0">
+          <div className="grid gap-8 md:grid-cols-2 md:gap-10">
             {recentPosts.map((post) => {
               const postMeta = [post.date || "2026-04-13", post.author]
                 .filter(Boolean)
@@ -86,11 +86,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-background-2 py-20">
-        <div className="mx-auto max-w-6xl">
+      <section className="bg-background-2 py-14 md:py-20">
+        <div className="mx-auto max-w-6xl px-5 xl:px-0">
           <div className="grid gap-10 md:grid-cols-12 md:items-start">
             <div className="md:col-span-4">
-              <h2 className="m-0 text-4xl font-normal leading-[1.2] text-foreground">
+              <h2 className="m-0 text-3xl font-normal leading-[1.2] text-foreground md:text-4xl">
                 文章主题
               </h2>
             </div>
@@ -100,7 +100,7 @@ export default function Home() {
                   <Link
                     key={tag}
                     href={`/tag/${encodeURIComponent(tag)}`}
-                    className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground no-underline hover:opacity-80"
+                    className="rounded-full bg-background-3 px-4 py-2.5 text-sm leading-none text-foreground no-underline hover:opacity-80 md:px-5 md:py-3 md:text-base"
                   >
                     {tag}
                     <span className="ml-2 text-foreground-2">({count})</span>

@@ -8,7 +8,7 @@ type BlogPostListProps = {
 
 export function BlogPostList({ posts }: BlogPostListProps) {
   return (
-    <div className="flex flex-col items-center gap-12">
+    <div className="flex flex-col items-center gap-10 md:gap-12">
       {posts.map((post) => {
         const meta = [post.date, post.author].filter(Boolean).join(" · ");
 
@@ -33,7 +33,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                 </div>
               )}
 
-              <h2 className="mb-1.5 text-[22px] font-medium leading-[1.3] tracking-[-0.1px] text-foreground md:text-[26px]">
+              <h2 className="mb-1.5 text-xl font-medium leading-[1.3] text-foreground md:text-[26px]">
                 <Link
                   href={`/blog/${post.slug}`}
                   className="text-foreground no-underline hover:underline"
@@ -43,7 +43,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
               </h2>
 
               {post.summary && (
-                <p className="m-0 line-clamp-3 text-base font-normal leading-[1.5] text-foreground-2">
+                <p className="m-0 line-clamp-4 text-base font-normal leading-[1.6] text-foreground-2 md:line-clamp-3 md:leading-[1.5]">
                   {post.summary}
                 </p>
               )}

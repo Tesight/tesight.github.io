@@ -54,19 +54,19 @@ export default async function TagPage({
 
   return (
     <main>
-      <section className="py-16">
-        <div className="mx-auto max-w-6xl text-left">
-          <h1 className="m-0 max-w-4xl text-7xl font-bold leading-[1.2] tracking-tighter text-foreground">
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-5 text-left xl:px-0">
+          <h1 className="m-0 max-w-4xl text-5xl font-bold leading-[1.15] tracking-tighter text-foreground md:text-7xl md:leading-[1.2]">
             主题：{tag}
           </h1>
-          <p className="mt-5 text-2xl leading-[1.2] tracking-tight text-foreground-2">
+          <p className="mt-5 text-xl leading-[1.35] tracking-tight text-foreground-2 md:text-2xl md:leading-[1.2]">
             共 {tagPosts.length} 篇文章
           </p>
         </div>
       </section>
 
-      <section className="pb-30 pt-6">
-        <div className="mx-auto max-w-6xl">
+      <section className="pb-20 pt-4 md:pb-30 md:pt-6">
+        <div className="mx-auto max-w-6xl px-5 xl:px-0">
           <BlogPostList posts={tagPosts} />
         </div>
       </section>

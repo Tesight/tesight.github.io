@@ -80,19 +80,19 @@ const regionalOffices = [
 export default function ContactPage() {
   return (
     <main>
-      <section className="py-16">
-        <div className="mx-auto max-w-6xl text-left">
-          <h1 className="m-0 max-w-4xl text-7xl font-bold leading-[1.2] tracking-tighter text-foreground">
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-5 text-left xl:px-0">
+          <h1 className="m-0 max-w-4xl text-5xl font-bold leading-[1.15] tracking-tighter text-foreground md:text-7xl md:leading-[1.2]">
             联系
           </h1>
-          <p className="mt-5 max-w-3xl text-2xl leading-[1.2] tracking-tight text-foreground-2">
+          <p className="mt-5 max-w-3xl text-xl leading-[1.35] tracking-tight text-foreground-2 md:text-2xl md:leading-[1.2]">
             如需测试测量方案咨询、产品选型或技术支持，可以通过以下方式联系德思特科技
           </p>
         </div>
       </section>
 
-      <section className="pb-30 pt-6">
-        <div className="mx-auto max-w-6xl">
+      <section className="pb-20 pt-4 md:pb-30 md:pt-6">
+        <div className="mx-auto max-w-6xl px-5 xl:px-0">
           <div className="grid gap-6 md:grid-cols-3">
             {primaryContacts.map((item) => (
               <a
@@ -105,7 +105,7 @@ export default function ContactPage() {
                 <div className="text-sm font-bold text-foreground-2">
                   {item.label}
                 </div>
-                <div className="mt-2 text-2xl font-medium leading-[1.2]">
+                <div className="mt-2 break-words text-xl font-medium leading-[1.2] md:text-2xl">
                   {item.value}
                 </div>
               </a>
@@ -113,13 +113,13 @@ export default function ContactPage() {
           </div>
 
           <section className="mt-16">
-            <h2 className="m-0 text-4xl font-normal leading-[1.2] text-foreground">
+            <h2 className="m-0 text-3xl font-normal leading-[1.2] text-foreground md:text-4xl">
               国内分部
             </h2>
             <div className="mt-8 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
               {offices.map((office) => (
                 <article key={office.city}>
-                  <h3 className="m-0 text-2xl font-medium leading-[1.2] text-foreground">
+                  <h3 className="m-0 text-xl font-medium leading-[1.2] text-foreground md:text-2xl">
                     {office.city}
                   </h3>
                   <p className="mt-3 text-base leading-7 text-foreground-2">
@@ -134,13 +134,13 @@ export default function ContactPage() {
           </section>
 
           <section className="mt-20 ">
-            <h2 className="m-0 text-4xl font-normal leading-[1.2] text-foreground">
+            <h2 className="m-0 text-3xl font-normal leading-[1.2] text-foreground md:text-4xl">
               地区与海外分部
             </h2>
             <div className="mt-8 grid gap-x-8 gap-y-10 md:grid-cols-2">
               {regionalOffices.map((office) => (
                 <article key={office.city}>
-                  <h3 className="m-0 text-2xl font-medium leading-[1.2] text-foreground">
+                  <h3 className="m-0 text-xl font-medium leading-[1.2] text-foreground md:text-2xl">
                     {office.city}
                   </h3>
                   <p className="mt-3 text-base leading-7 text-foreground-2">

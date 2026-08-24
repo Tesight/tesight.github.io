@@ -17,7 +17,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className="[scrollbar-gutter:stable]">
       <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
         <SiteNav />
         <div className="flex-1">{children}</div>

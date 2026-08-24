@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "项目",
 };
+
 export default function AboutPage() {
   return (
-    <main className="bg-curate-50 py-[40px] md:py-[80px]">
-      <div className="mx-auto max-w-[1140px] px-[30px]">
-        <h1 className="m-0 text-[36px] font-bold leading-[1.1] tracking-[-1px] text-curate-950 md:text-[46px] md:leading-none md:tracking-[-2px]">
-          About
-        </h1>
-        <p className="mt-[20px] max-w-[760px] text-[22px] leading-[1.24] tracking-[-1px] text-curate-700 md:mt-[30px] md:text-[26px] md:leading-[1.4] md:tracking-[1px]">
-          Tesight is a technical notebook for GNSS simulation, signal systems,
-          networking and practical engineering research.
-        </p>
-      </div>
+    <main className="bg-background">
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-5 text-left xl:px-0">
+          <h1 className="m-0 max-w-4xl text-5xl font-bold leading-[1.15] tracking-tighter text-foreground md:text-7xl md:leading-[1.2]">
+            项目
+          </h1>
+          <p className="mt-5 max-w-3xl text-xl leading-[1.35] tracking-tight text-foreground-2 md:text-2xl md:leading-[1.2]">
+            项目页面正在整理中，后续会集中展示德思特技术相关工具与工程实践。
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

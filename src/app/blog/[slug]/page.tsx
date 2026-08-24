@@ -11,18 +11,18 @@ const MDXContent = ({ code }: { code: string }) => {
 };
 
 const postContentClassName = [
-  "prose prose-lg max-w-none",
+  "prose max-w-none md:prose-lg",
   "prose-headings:font-bold prose-headings:leading-tight prose-headings:tracking-tight prose-headings:text-foreground",
-  "prose-h2:mt-8 prose-h2:mb-5 prose-h2:text-3xl",
-  "prose-h3:mt-6 prose-h3:mb-4 prose-h3:text-2xl",
-  "prose-p:my-2 prose-p:text-justify prose-p:leading-8 prose-p:text-foreground",
+  "prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-2xl md:prose-h2:mb-5 md:prose-h2:text-3xl",
+  "prose-h3:mt-6 prose-h3:mb-3 prose-h3:text-xl md:prose-h3:mb-4 md:prose-h3:text-2xl",
+  "prose-p:my-2 prose-p:text-justify prose-p:leading-7 prose-p:text-foreground md:prose-p:leading-8",
   "prose-a:text-foreground prose-a:underline prose-a:decoration-foreground/35 prose-a:underline-offset-4 hover:prose-a:decoration-foreground",
   "prose-strong:text-foreground",
   "prose-ul:my-0",
   "prose-li:my-0 prose-li:text-foreground prose-li:marker:text-foreground-2",
   "prose-blockquote:border-l-foreground prose-blockquote:text-foreground-2",
   "prose-code:rounded-sm prose-code:bg-stone-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none prose-code:font-mono prose-code:font-normal",
-  "prose-pre:rounded-md prose-pre:bg-foreground prose-pre:p-5 prose-pre:text-background prose-pre:font-mono",
+  "prose-pre:overflow-x-auto prose-pre:rounded-md prose-pre:bg-foreground prose-pre:p-4 prose-pre:text-background prose-pre:font-mono md:prose-pre:p-5",
   "[&_pre_code]:rounded-none [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-background",
   "[&_.table-scroll]:my-8 [&_.table-scroll]:max-w-full [&_.table-scroll]:overflow-x-auto",
   "[&_table]:my-0 [&_table]:w-full [&_table]:table-auto [&_table]:border-collapse",
@@ -67,31 +67,31 @@ export default async function PostPage({
 
   return (
     <main className="bg-background">
-      <section className="relative h-[75vh] w-full overflow-hidden">
+      <section className="relative h-[70vh] min-h-[520px] w-full overflow-hidden sm:h-[75vh]">
         <PostArtwork
           cover={post.cover}
-          className="absolute inset-0 h-full rounded-none"
+          className="absolute inset-0 h-full rounded-t-none rounded-b-none"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-linear-to-b from-foreground-2/10 via-foreground-2/10 to-foreground-2/45" />
-        <header className="absolute inset-x-0 px-5 bottom-0 z-10 mx-auto max-w-4xl pb-20 text-left text-background">
+        <header className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-12 text-left text-background md:pb-20">
           {postMeta && (
             <div className="mb-4 text-base leading-6 text-background/80">
               {postMeta}
             </div>
           )}
-          <h1 className="m-0 max-w-3xl text-5xl font-bold leading-[1.1] tracking-[-1px] text-background">
+          <h1 className="m-0 max-w-3xl text-4xl font-bold leading-[1.12] tracking-[-1px] text-background md:text-5xl md:leading-[1.1]">
             {post.title}
           </h1>
           {post.summary && (
-            <p className="mt-5 max-w-2xl text-2xl leading-[1.35] text-background/85">
+            <p className="mt-5 max-w-2xl text-lg leading-[1.45] text-background/85 md:text-2xl md:leading-[1.35]">
               {post.summary}
             </p>
           )}
         </header>
       </section>
 
-      <article className="mx-auto max-w-4xl px-5 py-16">
+      <article className="mx-auto max-w-4xl px-5 py-12 md:py-16">
         <div className={postContentClassName}>
           <MDXContent code={post.content} />
         </div>
