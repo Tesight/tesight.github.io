@@ -44,7 +44,7 @@ export default function Home() {
                   href={`/blog/${post.slug}`}
                   className="block hover:opacity-80"
                 >
-                  <PostArtwork />
+                  <PostArtwork cover={post.cover} />
                 </Link>
                 <div className="flex flex-1 flex-col pt-2 gap-1.5">
                   <h2 className="m-0 font-medium leading-[1.2] tracking-wider text-lg text-foreground">

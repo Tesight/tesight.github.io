@@ -10,6 +10,7 @@ export default defineConfig({
         date: s.string().optional(),
         summary: s.string().optional(),
         author: s.string().optional(),
+        cover: s.string().optional(),
         tags: s
           .string()
           .optional()

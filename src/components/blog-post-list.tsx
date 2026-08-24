@@ -19,7 +19,7 @@ export function BlogPostList({ posts }: BlogPostListProps) {
           >
             <div className="mb-4 w-full shrink-0 md:mb-0 md:mr-[30px] md:w-[300px]">
               <Link href={`/blog/${post.slug}`} className="block hover:opacity-80">
-                <PostArtwork />
+                <PostArtwork cover={post.cover} />
               </Link>
             </div>
 

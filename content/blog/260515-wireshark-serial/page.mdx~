@@ -1,9 +1,0 @@
----
-title: 通过 Wireshark 抓取串口命令
-date: 2026-05-15
-summary: Wireshark 是一款开源免费的网络协议分析工具，支持跨 Windows、macOS、Linux 等多操作系统，核心功能是实时捕获网络中的数据包，并以可视化界面展示数据传输细节。它不仅能分析以太网、Wi-Fi 等传统网络数据，还可通过扩展组件支持 USB、串口等总线数据抓取。
----
-
-## 一、安装 Wireshark
-
-通过 [Wireshark 官方下载链接](https://www.wireshark.org/#download) 获取对应系统的安装包。由于抓取 USB 数据还需要 USBPcap，需额外安装 USBPcap 组件。Wireshark 默认不安装 USBPcap，在运行安装包，按向导完成基础配置后，在组件选择界面手动勾选「USBPcap」。其余安装选项可保持默认，按提示接受协议许可，完成安装后重启计算机，确保组件生效。

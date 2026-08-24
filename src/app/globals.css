@@ -34,3 +34,8 @@
   --font-sans: sans-serif;
   --font-mono: monospace;
 }
+
+html,
+body {
+  background: var(--background) !important;
+}
