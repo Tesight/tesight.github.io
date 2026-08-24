@@ -14,7 +14,7 @@ const postContentClassName = [
   "prose-headings:font-bold prose-headings:leading-tight prose-headings:tracking-tight prose-headings:text-foreground",
   "prose-h2:mt-8 prose-h2:mb-5 prose-h2:text-3xl",
   "prose-h3:mt-6 prose-h3:mb-4 prose-h3:text-2xl",
-  "prose-p:my-2 prose-p:leading-8 prose-p:text-foreground",
+  "prose-p:my-2 prose-p:text-justify prose-p:leading-8 prose-p:text-foreground",
   "prose-a:text-foreground prose-a:underline prose-a:decoration-foreground/35 prose-a:underline-offset-4 hover:prose-a:decoration-foreground",
   "prose-strong:text-foreground",
   "prose-ul:my-0",

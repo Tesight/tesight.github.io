@@ -10,7 +10,7 @@ tags: Python, Skydel, HTTP
 
 ## 建立连接：`RemoteSimulator.connect()`
 
-```Python
+```python
 def connect(
         self, ip: str = "localhost", id: int = 0, failIfApiVersionMismatch: bool = False
     ) -> None:
@@ -50,7 +50,7 @@ def connect(
 
 ### 发送请求
 
-```Python
+```python
 # _msgId2Packet()
 message = struct.pack("<B", MsgId.ApiVersion) + struct.pack("<I", ApiVersion)
 
@@ -65,15 +65,15 @@ self.sock.sendall(packet)
 
 实际上，通过 API 与 Skydel Server 通信时，收发的数据包都遵循这个格式：
 
-|长度头（`unsigned short`）|消息标识（`unsigned char`）|消息内容|
-|---|---|---|
-|消息标识+消息内容的数据长度|`0`：指令消息<br/>`1`：指令执行的结果消息<br/>`2`：API 查询消息|发送或接收的真正数据|
+| 长度头（`unsigned short`）    | 消息标识（`unsigned char`）                                     | 消息内容             |
+| ----------------------------- | --------------------------------------------------------------- | -------------------- |
+| 消息标识 + 消息内容的数据长度 | `0`：指令消息<br/>`1`：指令执行的结果消息<br/>`2`：API 查询消息 | 发送或接收的真正数据 |
 
 ### 等待响应
 
 Skydel API 提供了一个用于获取数据的 helper 方法：
 
-```Python
+```python
 def _getPacket(self, size: int) -> bytes:
     # 尝试从 socket 读取 size 大小数据（因网络等原因实际未必为 size 大小）
     packet = self.sock.recv(size)
@@ -90,7 +90,7 @@ def _getPacket(self, size: int) -> bytes:
 
 `_getPacket()` 的具体功能是从 socket 中读取精确 `size` 大小的数据包，若没有数据可读时就抛出异常（断线）。在等待 API 版本的响应过程中，也是按照 **长度头 + 消息标识 + 消息内容** 的格式来读取：
 
-```Python
+```python
 # 持续等待 socket 的响应
 while 1 == 1:
     # _getPacketSize()
@@ -101,7 +101,7 @@ while 1 == 1:
     # 如果消息标识是 API 查询，那么这条响应消息就是正确的响应，读取 API 版本
     if msgId == MsgId.ApiVersion:
         return struct.unpack("<I", self._getPacket(4))[0]
-    else: 
+    else:
         # 如果消息标识不匹配，不是目标消息，就丢弃这条消息
         # msgSize - 1 是指除消息标识以后的消息内容长度，消息标识已经读取
         self._getPacket(msgSize - 1)
@@ -111,7 +111,7 @@ while 1 == 1:
 
 ## 推送命令：_callCommand()
 
-```Python
+```python
 hilPort = self._callCommand(GetHilPort()).port()
 self.hil = ClientHil(self.client.getAddress(), hilPort)
 ```
@@ -120,7 +120,7 @@ self.hil = ClientHil(self.client.getAddress(), hilPort)
 
 `_callCommand()` 由发送命令 `_postCommand()` 和等待结果 `_waitCommand()` 两个步骤构成：
 
-```Python
+```python
 def _callCommand(self, cmd, timestamp=None):
     self._postCommand(cmd, timestamp)
     return self._waitCommand(cmd)
@@ -130,7 +130,7 @@ def _callCommand(self, cmd, timestamp=None):
 
 `_postCommand()` 方法判断了弃用指令，并按要求给指令添加时间戳，由 `sendCommand()` 实际发送出指令：
 
-```Python
+```python
 def _postCommand(self, cmd, timestamp=None):
     # 判断该指令是否弃用了
     deprecated = cmd.deprecated()
@@ -153,7 +153,7 @@ def _postCommand(self, cmd, timestamp=None):
 
 在 `senCommand()` 中，可以看到发送命令过程真正发送的数据：
 
-```Python
+```python
 def sendCommand(self, cmd: CommandBase) -> None:
     json_str = cmd.toJson()
 
@@ -165,9 +165,9 @@ def sendCommand(self, cmd: CommandBase) -> None:
 
 这个过程实际上是发送了 JSON 格式的指令，并将其封装为以下统一格式：
 
-|长度头（`unsigned short`）|消息标识（`unsigned char`）|消息内容|
-|---|---|---|
-|消息标识+消息内容的数据长度|`0`：表明该消息为指令消息|JSON 格式的指令 + `0`停止符（以 UTF-8 编码）|
+| 长度头（`unsigned short`）  | 消息标识（`unsigned char`） | 消息内容                                     |
+| --------------------------- | --------------------------- | -------------------------------------------- |
+| 消息标识+消息内容的数据长度 | `0`：表明该消息为指令消息   | JSON 格式的指令 + `0`停止符（以 UTF-8 编码） |
 
 需要注意的是，在 `CommandBase` 类会通过指令名 `CmdName` 和 UUID `CmdUuid` 等数据完成实例化，这些数据也就是 JSON 中的实际数据。
 
@@ -175,7 +175,7 @@ def sendCommand(self, cmd: CommandBase) -> None:
 
 在使用 `_postCommand()` 发送指令后，就进入 `_waitCommand()` 的等待响应阶段：
 
-```Python
+```python
 def _waitCommand(self, cmd):
     result = self.client.waitCommand(cmd)
     self._handleException(result)
@@ -203,7 +203,7 @@ def waitCommand(self, cmd: CommandBase) -> Optional[CommandResult]:
 
 Skydel API 给用户提供了两种发送指令的方法，分别是 `post()` 和 `call()`。实际上两个命令都是在调用 `_postCommand()` 这个核心方法，而不同之处在于 `call()` 在调用 `postCommand()` 后会立即调用 `_waitCommand()`，其中的 `while 1== 1` 会导致程序阻塞，直至拿到指令的响应或是与 Server 断开连接。在调用 `post()` 后则需要手动调用 `wait()` 才能拿到指令的响应。
 
-```Python
+```python
 def post(self, cmd, timestamp=None):
         self._checkConnect()
         self._checkForbiddenPost(cmd)
@@ -211,7 +211,7 @@ def post(self, cmd, timestamp=None):
             print("Post " + cmd.toString())
         self._postCommand(cmd, timestamp)
         return cmd
-        
+
 def wait(self, cmd):
         self._checkConnect()
         if self.verbose:
@@ -223,7 +223,7 @@ def wait(self, cmd):
         return result
 ```
 
-```Python
+```python
 def call(self, cmd, timestamp=None):
         self._checkConnect()
         self._checkForbiddenCall(cmd)
@@ -238,29 +238,29 @@ def call(self, cmd, timestamp=None):
         return result
 ```
 
-# ClientHil
+## ClientHil
 
 在 `RemoteSimulator.connect()` 的最后，由指令获取到的 HIL 端口实例化了一个 `ClientHil` 类，打开了 HIL 客户端。`ClientHil` 同样继承了 `Client` 类，主要用于在 HIL 模式中向 Skydel Server 推送实时的坐标位置。
 
-## 消息类型
+### 消息类型
 
 `ClientHil` 定义了 7 种消息类型标识（`MsgId`）：
 
-|消息类型标识|意义|
-|---|---|
-|`Hello`|向 Skydel Server 握手|
-|`Bye`|向 Skydel Server 挥手|
-|`VehicleInfo`|Skydel Server 发来的车辆信息|
-|`PushEcef`|向 Skydel Server 推送车辆位置信息|
-|`PushEcefNed`|向 Skydel Server 推送车辆位置 + 姿态信息|
-|`PushEcefDynamics`|向 Skydel Server 推送车辆位置 + 运动信息|
-|`PushEcefNedDynamics`|向 Skydel Server 推送车辆位置 + 姿态 + 运动信息|
+| 消息类型标识          | 意义                                            |
+| --------------------- | ----------------------------------------------- |
+| `Hello`               | 向 Skydel Server 握手                           |
+| `Bye`                 | 向 Skydel Server 挥手                           |
+| `VehicleInfo`         | Skydel Server 发来的车辆信息                    |
+| `PushEcef`            | 向 Skydel Server 推送车辆位置信息               |
+| `PushEcefNed`         | 向 Skydel Server 推送车辆位置 + 姿态信息        |
+| `PushEcefDynamics`    | 向 Skydel Server 推送车辆位置 + 运动信息        |
+| `PushEcefNedDynamics` | 向 Skydel Server 推送车辆位置 + 姿态 + 运动信息 |
 
-## pollVehicleInfo()
+### pollVehicleInfo()
 
-该方法的主要功能是从 socket 中查询接收车辆信息数据，若有则解析并返回；若无数据则返回 `None`。socket 在接收数据时有超时时间，若 socket 中没有已到达的数据，socket 就会在超时时间内等待网络数据的到来（阻塞等待）。`pollVehicleInfo()` 的主要操作是将 socket 的超时时间设置为 0（*`self`*`.sock.settimeout(0)`），不论是否获取到数据都立刻返回。避免在监控车辆状态这样频繁检查数据、实时性要求高的场景下发生主线程的阻塞。
+该方法的主要功能是从 socket 中查询接收车辆信息数据，若有则解析并返回；若无数据则返回 `None`。socket 在接收数据时有超时时间，若 socket 中没有已到达的数据，socket 就会在超时时间内等待网络数据的到来（阻塞等待）。`pollVehicleInfo()` 的主要操作是将 socket 的超时时间设置为 0（`self.sock.settimeout(0)`），不论是否获取到数据都立刻返回。避免在监控车辆状态这样频繁检查数据、实时性要求高的场景下发生主线程的阻塞。
 
-```Python
+```python
 def pollVehicleInfo(self):
         _start = datetime.datetime.now()
         sent = None
@@ -279,7 +279,7 @@ def pollVehicleInfo(self):
             if id == MsgId.VehicleInfo:
                 sent = VehicleInfo()
                 (
-                    sent.elapsedTime,    # 运行时间 
+                    sent.elapsedTime,    # 运行时间
                     sent.ecef.x,         # ECEF x
                     sent.ecef.y,         # ECEF x
                     sent.ecef.z,         # ECEF z
@@ -290,22 +290,22 @@ def pollVehicleInfo(self):
                     sent.heading,        # 朝向
                     sent.odometer,       # 里程
                 ) = struct.unpack("<Qddddddddd", result[1:])
-        
+
         except socket.timeout:
             pass
         except socket.error as e:
             if e.args[0] != socket.EWOULDBLOCK:
                 raise
-                
+
         # 设置 socket 超时时间，切换回阻塞模式
         self.sock.settimeout(oldTimeout)
-        
+
         return sent
 ```
 
 `RemoteSimulator()` 中提供了操作 `ClientHil` 获取信息的方法：
 
-```Python
+```python
 # 向 Skydel Server 发送指令，告诉开始接收车辆信息
 def beginVehicleInfo(self) -> CommandResult:
     return self.call(BeginVehicleInfo())
@@ -348,38 +348,38 @@ def lastVehicleInfo(self):
 5. `sim.endVehicleInfo()` 令 Skydel Server 不再发送车辆信息
 6. `sim.disconnect()` 与 Skydel Server 断开连接
 
-## pushEcef() & pushEcefNed()
+### pushEcef() & pushEcefNed()
 
 `ClientHil` 中的这两个方法都是用于向服务端推送车辆的位置信息，两个方法都比较简单，操作流程都是将信息包装好后直接发送。
 
 在 `pushEcef()` 中，位置信息采用 ECEF 坐标，包装了以下格式的消息：
-| 字段      | 类型                  | 含义                                              |
-| ------- | ------------------- | ----------------------------------------------- |
-| 消息标识    | `unsigned char`     | `PushEcef` / `PushEcefDynamics`（根据是否包含加速度等运动信息） |
-| 运动信息类型  | `unsigned char`（若有） | 加加速度（Jerk）                                      |
-| 运动信息类型  | `unsigned char`（若有） | 加速度                                             |
-| 运动信息类型  | `unsigned char`（若有） | 速度                                              |
-| 时间      | `double`            | 流逝时间                                            |
-| 位置 ECEF | `double * 3`        | ECEF 坐标的 x、y、z                                  |
-| 速度      | `double * 3`（若有）    | 速度的 x、y、z 分量                                    |
-| 加速度     | `double * 3`（若有）    | 加速度的 x、y、z 分量                                   |
-| 加加速度    | `double * 3`（若有）    | 加加速度的 x、y、z 分量                                  |
+
+| 字段         | 类型                    | 含义                                                            |
+| ------------ | ----------------------- | --------------------------------------------------------------- |
+| 消息标识     | `unsigned char`         | `PushEcef` / `PushEcefDynamics`（根据是否包含加速度等运动信息） |
+| 运动信息类型 | `unsigned char`（若有） | 加加速度（Jerk）                                                |
+| 运动信息类型 | `unsigned char`（若有） | 加速度                                                          |
+| 运动信息类型 | `unsigned char`（若有） | 速度                                                            |
+| 时间         | `double`                | 流逝时间                                                        |
+| 位置 ECEF    | `double * 3`            | ECEF 坐标的 x、y、z                                             |
+| 速度         | `double * 3`（若有）    | 速度的 x、y、z 分量                                             |
+| 加速度       | `double * 3`（若有）    | 加速度的 x、y、z 分量                                           |
+| 加加速度     | `double * 3`（若有）    | 加加速度的 x、y、z 分量                                         |
 
 在 `pushEcefNed()` 中，除位置信息外还包含了姿态信息，姿态信息采用 NED 坐标，消息格式为：
 
-| 字段      | 类型                  | 含义                                                    |
-| ------- | ------------------- | ----------------------------------------------------- |
-| 消息标识    | `unsigned char`     | `PushEcefNed` / `PushEcefNedDynamics`（根据是否包含加速度等运动信息） |
-| 运动信息类型  | `unsigned char`（若有） | 加加速度（Jerk）                                            |
-| 运动信息类型  | `unsigned char`（若有） | 加速度                                                   |
-| 运动信息类型  | `unsigned char`（若有） | 速度                                                    |
-| 时间      | `double`            | 流逝时间                                                  |
-| 位置 ECEF | `double * 3`        | ECEF 坐标的 x、y、z                                        |
-| 姿态 NED  | `double * 3`        | 姿态的 yaw、pitch、roll                                    |
-| 速度      | `double * 3`（若有）    | 速度的 x、y、z 分量                                          |
-| 角速度     | `double * 3`（若有）    | 速度的 yaw、pitch、roll 分量                                 |
-| 加速度     | `double * 3`（若有）    | 加速度的 x、y、z 分量                                         |
-| 角加速度    | `double * 3`（若有）    | 加速度的 yaw、pitch、roll 分量                                |
-| 加加速度    | `double * 3`（若有）    | 加加速度的 x、y、z 分量                                        |
-| 角加加速度   | `double * 3`（若有）    | 加加速度的 yaw、pitch、roll 分量                               |
-
+| 字段         | 类型                    | 含义                                                                  |
+| ------------ | ----------------------- | --------------------------------------------------------------------- |
+| 消息标识     | `unsigned char`         | `PushEcefNed` / `PushEcefNedDynamics`（根据是否包含加速度等运动信息） |
+| 运动信息类型 | `unsigned char`（若有） | 加加速度（Jerk）                                                      |
+| 运动信息类型 | `unsigned char`（若有） | 加速度                                                                |
+| 运动信息类型 | `unsigned char`（若有） | 速度                                                                  |
+| 时间         | `double`                | 流逝时间                                                              |
+| 位置 ECEF    | `double * 3`            | ECEF 坐标的 x、y、z                                                   |
+| 姿态 NED     | `double * 3`            | 姿态的 yaw、pitch、roll                                               |
+| 速度         | `double * 3`（若有）    | 速度的 x、y、z 分量                                                   |
+| 角速度       | `double * 3`（若有）    | 速度的 yaw、pitch、roll 分量                                          |
+| 加速度       | `double * 3`（若有）    | 加速度的 x、y、z 分量                                                 |
+| 角加速度     | `double * 3`（若有）    | 加速度的 yaw、pitch、roll 分量                                        |
+| 加加速度     | `double * 3`（若有）    | 加加速度的 x、y、z 分量                                               |
+| 角加加速度   | `double * 3`（若有）    | 加加速度的 yaw、pitch、roll 分量                                      |
