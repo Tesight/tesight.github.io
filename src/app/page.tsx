@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { posts } from "@velite";
 import { PostArtwork } from "@/components/post-artwork";
+import { Icon } from "@iconify/react";
 
 export default function Home() {
   const recentPosts = [...posts]
@@ -35,32 +36,52 @@ export default function Home() {
       <section className="pb-30 pt-14">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 md:grid-cols-2">
-            {recentPosts.map((post) => (
-              <article
-                key={post.slug}
-                className="flex h-full flex-col overflow-hidden rounded-[4px] bg-curate-50"
-              >
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="block hover:opacity-80"
+            {recentPosts.map((post) => {
+              const postMeta = [post.date || "2026-04-13", post.author]
+                .filter(Boolean)
+                .join(" · ");
+
+              return (
+                <article
+                  key={post.slug}
+                  className="flex h-full flex-col overflow-hidden rounded-[4px] bg-curate-50"
                 >
-                  <PostArtwork cover={post.cover} />
-                </Link>
-                <div className="flex flex-1 flex-col pt-2 gap-1.5">
-                  <h2 className="m-0 font-medium leading-[1.2] tracking-wider text-lg text-foreground">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="text-curate-950 no-underline hover:underline"
-                    >
-                      {post.title}
-                    </Link>
-                  </h2>
-                  <div className="text-sm font-light text-foreground-2">
-                    {post.date || "2026-04-13"}
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="block hover:opacity-80"
+                  >
+                    <PostArtwork cover={post.cover} />
+                  </Link>
+                  <div className="flex flex-1 flex-col gap-1.5 pt-2">
+                    <h2 className="m-0 text-lg font-medium leading-[1.2] tracking-wider text-foreground">
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="text-curate-950 no-underline hover:underline"
+                      >
+                        {post.title}
+                      </Link>
+                    </h2>
+                    {postMeta && (
+                      <div className="text-sm leading-6 text-foreground-2">
+                        {postMeta}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
+          </div>
+          <div className="mt-10 flex justify-end">
+            <Link
+              href="/blog"
+              className="group inline-flex items-center gap-2 text-lg font-medium leading-none text-foreground no-underline hover:underline"
+            >
+              <span>查看全部文章</span>
+              <Icon
+                icon="mdi:arrow-right"
+                className="size-5 shrink-0 transition-transform group-hover:translate-x-1"
+              />
+            </Link>
           </div>
         </div>
       </section>

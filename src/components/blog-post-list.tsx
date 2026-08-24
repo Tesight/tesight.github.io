@@ -18,7 +18,10 @@ export function BlogPostList({ posts }: BlogPostListProps) {
             className="flex w-full flex-col overflow-visible rounded-none md:flex-row"
           >
             <div className="mb-4 w-full shrink-0 md:mb-0 md:mr-[30px] md:w-[300px]">
-              <Link href={`/blog/${post.slug}`} className="block hover:opacity-80">
+              <Link
+                href={`/blog/${post.slug}`}
+                className="block hover:opacity-80"
+              >
                 <PostArtwork cover={post.cover} />
               </Link>
             </div>
@@ -43,6 +46,20 @@ export function BlogPostList({ posts }: BlogPostListProps) {
                 <p className="m-0 line-clamp-3 text-base font-normal leading-[1.5] text-foreground-2">
                   {post.summary}
                 </p>
+              )}
+
+              {post.tags.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/tag/${encodeURIComponent(tag)}`}
+                      className="rounded-sm bg-background-3 px-3 py-1.5 text-sm leading-none text-foreground no-underline hover:opacity-80"
+                    >
+                      # {tag}
+                    </Link>
+                  ))}
+                </div>
               )}
             </div>
           </article>
