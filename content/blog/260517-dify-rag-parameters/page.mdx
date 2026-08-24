@@ -3,6 +3,7 @@ title: 从 Dify 配置页理解 RAG 的重要参数
 date: 2026-05-17
 author: Ian
 summary: 以 Dify 知识库配置页为入口，系统解释 Chunk Settings、Text Pre-processing、Index Method、Embedding Model、Retrieval Setting 以及常见调参方法。
+tags: AI, RAG, Dify, 知识库
 ---
 
 RAG（Retrieval-Augmented Generation，检索增强生成）经常被一句话概括成“先检索，再回答”。这句话没有错，但如果真的要把一个知识库调到可用，仅仅理解这四个字还不够。真正影响答案质量的，往往是 Dify 知识库配置页里的那些看似普通的参数：chunk 怎么切、文本怎么清洗、索引用什么方式建、embedding 模型怎么选、检索时拿多少片段、要不要阈值、要不要 rerank。

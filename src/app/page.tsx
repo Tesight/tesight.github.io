@@ -10,6 +10,15 @@ export default function Home() {
     )
     .slice(0, 4);
 
+  const tags = Array.from(
+    posts
+      .flatMap((post) => post.tags)
+      .reduce((tagCounts, tag) => {
+        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+        return tagCounts;
+      }, new Map<string, number>()),
+  ).sort(([, countA], [, countB]) => countB - countA);
+
   return (
     <main>
       <section className="py-16">
@@ -66,16 +75,15 @@ export default function Home() {
             </div>
             <div className="md:col-span-8">
               <div className="flex flex-wrap gap-3">
-                {["GNSS", "NTP", "测试软件", "AI + 信号测试", "测试测量"].map(
-                  (topic) => (
-                    <span
-                      key={topic}
-                      className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground"
-                    >
-                      {topic}
-                    </span>
-                  ),
-                )}
+                {tags.map(([tag, count]) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-background-3 px-5 py-3 text-base leading-none text-foreground"
+                  >
+                    {tag}
+                    <span className="ml-2 text-foreground-2">({count})</span>
+                  </span>
+                ))}
               </div>
             </div>
           </div>

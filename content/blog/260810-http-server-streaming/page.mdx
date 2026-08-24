@@ -3,6 +3,7 @@ title: HTTP 服务端流式推送的实现方法
 date: 2026-08-10
 author: Liam
 summary: 从观察者模式出发，介绍 HTTP 服务端主动推送的基本思路，并以 FastAPI 为例说明 JSONL 流式响应和 Server-Sent Events（SSE）的服务端与客户端实现。
+tags: HTTP, FastAPI, Python, 设计模式
 ---
 
 消息推送广泛用于事件监听、UI 绑定、即时通信、订单状态更新、监控告警和物联网数据上报等场景。本文先从单机应用中的观察者模式入手，再介绍如何通过 HTTP 流式响应将同样的“状态变化后主动通知”思路扩展到客户端与服务端之间。

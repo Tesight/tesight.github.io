@@ -10,6 +10,17 @@ export default defineConfig({
         date: s.string().optional(),
         summary: s.string().optional(),
         author: s.string().optional(),
+        tags: s
+          .string()
+          .optional()
+          .transform((tags) =>
+            tags
+              ? tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter(Boolean)
+              : [],
+          ),
         slug: s.path().transform((path) => path.split("/")[1]),
         content: s.mdx(),
       }),
