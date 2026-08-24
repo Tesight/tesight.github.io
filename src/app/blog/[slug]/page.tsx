@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { posts } from "@velite";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PostArtwork } from "@/components/post-artwork";
+import { PostCoverParallax } from "@/components/post-cover-parallax";
 import * as runtime from "react/jsx-runtime";
 
 const MDXContent = ({ code }: { code: string }) => {
@@ -68,11 +68,7 @@ export default async function PostPage({
   return (
     <main className="bg-background">
       <section className="relative h-[70vh] min-h-[520px] w-full overflow-hidden sm:h-[75vh]">
-        <PostArtwork
-          cover={post.cover}
-          className="absolute inset-0 h-full rounded-t-none rounded-b-none"
-          sizes="100vw"
-        />
+        <PostCoverParallax cover={post.cover} />
         <div className="absolute inset-0 bg-linear-to-b from-foreground-2/10 via-foreground-2/10 to-foreground-2/45" />
         <header className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-12 text-left text-background md:pb-20">
           {postMeta && (
