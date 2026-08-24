@@ -21,7 +21,7 @@ const postContentClassName = [
   "prose-ul:my-0",
   "prose-li:my-0 prose-li:text-foreground prose-li:marker:text-foreground-2",
   "prose-blockquote:border-l-foreground prose-blockquote:text-foreground-2",
-  "prose-code:rounded-sm prose-code:bg-stone-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none prose-code:font-mono prose-code:font-normal",
+  "prose-code:rounded-sm prose-code:bg-stone-200 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none prose-code:font-mono prose-code:font-normal prose-code:[overflow-wrap:anywhere]",
   "prose-pre:overflow-x-auto prose-pre:rounded-md prose-pre:bg-foreground prose-pre:p-4 prose-pre:text-background prose-pre:font-mono md:prose-pre:p-5",
   "[&_pre_code]:rounded-none [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-background",
   "[&_.table-scroll]:my-8 [&_.table-scroll]:max-w-full [&_.table-scroll]:overflow-x-auto",
